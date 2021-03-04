@@ -76,7 +76,7 @@ export default class PlannerView {
 	}
 
 	calculaBonusTier() {
-		let highest = this.getMaxAttr();
+		let highest = this.getMaxAttr(true);
 		let bonus = 0;
 
 		if(highest >= 10) bonus += 2 // tier 2
@@ -104,17 +104,26 @@ export default class PlannerView {
 		return number <= 0 ? number : '+' + number; 
 	}
 
-	getAttr() {
-		return {
+	getAttr(total) {
+		let atributos = {
 			'str': parseInt($('#ip-str').val()) || 0,
 			'agi': parseInt($('#ip-agi').val()) || 0,
 			'dex': parseInt($('#ip-dex').val()) || 0,
 			'ene': parseInt($('#ip-ene').val()) || 0
 		}
+
+		if(total) {
+			atributos.str += parseInt($('#ip-arq-str').val()) + parseInt($('#ip-tier-str').val()) + parseInt($('#ip-tre-str').val());
+			atributos.agi += parseInt($('#ip-arq-agi').val()) + parseInt($('#ip-tier-agi').val()) + parseInt($('#ip-tre-agi').val());
+			atributos.dex += parseInt($('#ip-arq-dex').val()) + parseInt($('#ip-tier-dex').val()) + parseInt($('#ip-tre-dex').val());
+			atributos.ene += parseInt($('#ip-arq-ene').val()) + parseInt($('#ip-tier-ene').val()) + parseInt($('#ip-tre-ene').val());
+		}
+
+		return atributos;
 	}
 
-	getMaxAttr() {
-		let attrs = this.getAttr();
+	getMaxAttr(total) {
+		let attrs = this.getAttr(total);
 		return Math.max(attrs.str, attrs.agi, attrs.dex, attrs.ene);
 	}
 
