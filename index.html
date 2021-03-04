@@ -3,86 +3,183 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Calculadora de atributos</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+		<!-- Libs -->
+
+		<!-- JQuery -->
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	  	<style type="text/css">
-	  		input[type="number"] {
-	  			width: 80px !important;
-	  		}
-	  	</style>
+
+		<!-- Sweet Alert 2 -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.5/sweetalert2.all.min.js" integrity="sha512-TxryOYMwWBRIlZoSkKW+jZvJ834vF3u8mE0jDeTLEDdPplOVNNZfWm9VFtEuW365BFPLK5CEIF/vaHqmAey8XA==" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/10.15.5/sweetalert2.css" integrity="sha512-WfDqlW1EF2lMNxzzSID+Tp1TTEHeZ2DK+IHFzbbCHqLJGf2RyIjNFgQCRNuIa8tzHka19sUJYBO+qyvX8YBYEg==" crossorigin="anonymous" />
+
+		<!-- Statics -->
+		<link rel="stylesheet" type="text/css" href="static/css/main.css"></link>
+		<script type="module" src="static/js/main.js"></script>
 	</head>
 	<body>
 		<div class='container'>
-			<h1>Caculadora All Spark</h1>
+			<h1>Planejador de builds All Spark</h1>
 			<form>
-    			<div class="form-group form-inline">  
-					<div class="form-row">
-						<div class="col-s1">
-				    		<label for="exp">Exp Total</label>
-				    		<input type="number" class="form-control" id="exp-inicial" value="30">
-				    	</div>
-				    	<div class="col-s1">
-				    		<label for="exp">Exp Restante</label>
-				    		<input type="number" class="form-control" id="exp-final" readonly>
-				    	</div>
-					</div>
-				</div>				
-				<div class="form-group form-inline">
-					<div class="form-row">
-				    	<div class="col-s1">
-				    		<label for="str">Força</label>
-				    		<input type="number" class="form-control" id="str" value="0">
-				    	</div>
-				    </div>
-					<div class="form-row">
-				    	<div class="col-s1">
-				    		<label for="agi">Agilidade</label>
-				    		<input type="number" class="form-control" id="agi" value="0">			    		
-				    	</div>
-				    </div>
-					<div class="form-row">
-				    	<div class="col-s1">
-				    		<label for="dex">Destreza</label>
-				    		<input type="number" class="form-control" id="dex" value="0">
-				    	</div>
-				    </div>
-					<div class="form-row">
-				    	<div class="col-s1">
-				    		<label for="ene">Energia</label>
-				    		<input type="number" class="form-control" id="ene" value="0">
-				    	</div>
-					</div>
-					<div class="form-row">
-				    	<div class="col-s1">
-				    		<label for="ene">Slots</label>
-				    		<input type="number" class="form-control" id="slots" value="0">
-				    	</div>
+		    	<div class="form-group">
+		    		<div class="form-row">
+		    			
+		    			<!-- Primeiro bloco -->
+		    			<div class="col-sm-6 border border-dark grupo-ficha"> 
+		    				<div class="form-row">
+								<div class="col-sm-6">
+						    		<label for="ip-conta">Nome da Conta</label>
+						    		<input type="text" class="form-control" id="ip-conta">
+						    	</div>
+								<div class="col-sm-6">
+						    		<label for="ip-nome">Nome do Personagem</label>
+						    		<input type="number" class="form-control" id="ip-nome">
+						    	</div>
+						    </div>
+						    <div class="form-row">
+								<div class="col-sm-6">
+						    		<label for="ip-idade">Idade</label>
+						    		<input type="text" class="form-control" id="ip-idade">
+						    	</div>
+								<div class="col-sm-6">
+						    		<label for="ip-raca">Raça</label>
+						    		<input type="number" class="form-control" id="ip-raca">
+						    	</div>
+						    </div>
+						    <div class="form-row">
+								<div class="col-sm-8">
+						    		<label for="sl-arquetipo">Arquétipo</label>
+						    		<select class="form-control" id="sl-arquetipo">
+						    			<option value="">Selecione...</option>
+						    			<option value="Treoir">Treoir</option>
+						    			<option value="Laidir">Laidir</option>
+						    			<option value="Animalesco">Animalesco</option>
+						    			<option value="Bestial">Bestial</option>
+						    			<option value="Mistico">Mistico</option>
+						    			<option value="Undead">Undead</option>
+						    			<option value="Reborn">Reborn</option>
+						    			<option value="Elemental">Elemental</option>
+						    			<option value="Espiritual">Espiritual</option>
+						    			<option value="Cyberpunk">Cyberpunk</option>
+						    			<option value="Dragao">Dragão</option>
+						    			<option value="Divindade">Divindade</option>
+						    			<option value="Basico">Básico</option>
+						    		</select>
+						    	</div>
+						    	<input type="hidden" id="ip-choice">
+						    </div>
+						    <div class="form-row">
+						    	<div class="col-sm-12">
+									<label for="txt-vantagem">Vantagem</label>
+									<textarea class="form-control" id="txt-vantagem"></textarea>
+								</div>
+						    </div>
+						    <div class="form-row">
+						    	<div class="col-sm-12">
+									<label for="txt-desvantagem">Desvantagem</label>
+									<textarea class="form-control" id="txt-desvantagem"></textarea>
+								</div>
+						    </div>
+						    <div class="form-row">
+						    	<div class="col-sm-12">
+									<label for="txt-requerimento">Requerimento</label>
+									<textarea class="form-control" id="txt-requerimento"></textarea>
+								</div>
+						    </div>
+		    			</div>
+
+		    			<!-- Segundo bloco -->
+		    			<div class="col-sm-6 border border-dark grupo-ficha">
+							<div class="form-row">
+								<div class="col-sm-4">
+						    		<label for="ip-exp-inicial">Pontos Totais</label>
+						    		<input type="number" class="form-control exp" id="ip-exp-inicial" value="30">
+						    	</div>
+						    	<div class="col-sm-4">
+						    		<label for="ip-exp-usada">Pontos Usados</label>
+						    		<input type="number" class="form-control exp" id="ip-exp-usada" value="0" readonly>
+						    	</div>
+						    	<div class="col-sm-4">
+						    		<label for="ip-exp-final">Pontos Restantes</label>
+						    		<input type="number" class="form-control exp" id="ip-exp-final" value="30" readonly>
+						    	</div>
+							</div>
+							<div class="form-row">
+						    	<div class="col-sm-2">
+						    		<label for="ip-str">Força</label>
+						    		<input type="number" class="form-control baseAttr" id="ip-str" value="0" max="59">
+						    	</div>
+						    	<div class="col-sm-2">
+						    		<label for="ip-b-str">Bonus</label>
+						    		<input type="text" class="form-control " id="ip-b-str" value="0" data-toggle="tooltip" data-placement="right" title="" readonly>
+						    	</div>
+						    	<input type="hidden" id="ip-arq-str" value="0">
+						    	<input type="hidden" id="ip-tier-str" value="0">
+						    	<input type="hidden" id="ip-tre-str" value="0">
+						    	<button type="button" class="btn btn-outline-dark treina" id="btn-treina-str" t="ip-tre-str">+1 Treinamento</button>
+						    </div>
+							<div class="form-row">
+						    	<div class="col-sm-2">
+						    		<label for="ip-agi">Agilidade</label>
+						    		<input type="number" class="form-control baseAttr" id="ip-agi" value="0" max="59">			    		
+						    	</div>
+						    	<div class="col-sm-2">
+						    		<label for="ip-b-agi">Bonus</label>
+						    		<input type="text" class="form-control " id="ip-b-agi" value="0" data-toggle="tooltip" data-placement="right" title="" readonly>
+						    	</div>
+						    	<input type="hidden" id="ip-arq-agi" value="0">
+						    	<input type="hidden" id="ip-tier-agi" value="0">
+						    	<input type="hidden" id="ip-tre-agi" value="0">
+						    	<button type="button" class="btn btn-outline-dark treina" id="btn-treina-agi" t="ip-tre-agi">+1 Treinamento</button>
+						    </div>
+							<div class="form-row">
+						    	<div class="col-sm-2">
+						    		<label for="ip-dex">Destreza</label>
+						    		<input type="number" class="form-control baseAttr" id="ip-dex" value="0" max="59">
+						    	</div>
+						    	<div class="col-sm-2">
+						    		<label for="ip-b-dex">Bonus</label>
+						    		<input type="text" class="form-control " id="ip-b-dex" value="0" data-toggle="tooltip" data-placement="right" title="" readonly>
+						    	</div>
+						    	<input type="hidden" id="ip-arq-dex" value="0">
+						    	<input type="hidden" id="ip-tier-dex" value="0">
+						    	<input type="hidden" id="ip-tre-dex" value="0">
+						    	<button type="button" class="btn btn-outline-dark treina" id="btn-treina-dex" t="ip-tre-dex">+1 Treinamento</button>
+						    </div>
+							<div class="form-row">
+						    	<div class="col-sm-2">
+						    		<label for="ip-ene">Energia</label>
+						    		<input type="number" class="form-control baseAttr" id="ip-ene" value="0" max="59">
+						    	</div>
+						    	<div class="col-sm-2">
+						    		<label for="ip-b-ene">Bonus</label>
+						    		<input type="text" class="form-control " id="ip-b-ene" value="0" data-toggle="tooltip" data-placement="right" title="" readonly>
+						    	</div>
+						    	<input type="hidden" id="ip-arq-ene" value="0">
+						    	<input type="hidden" id="ip-tier-ene" value="0">
+						    	<input type="hidden" id="ip-tre-ene" value="0">
+						    	<button type="button" class="btn btn-outline-dark treina" id="btn-treina-ene" t="ip-tre-ene">+1 Treinamento</button>
+							</div>
+							<div class="form-row">
+						    	<div class="col-sm-2">
+						    		<label for="ip-slots">Slots</label>
+						    		<input type="number" class="form-control baseAttr" id="ip-slots" value="0">
+						    	</div>
+						    	<div class="col-sm-2">
+						    		<label for="ip-b-slots">Bonus</label>
+						    		<input type="text" class="form-control " id="ip-b-slots" value="0" data-toggle="tooltip" data-placement="right" title="" readonly>
+						    	</div>
+						    	<input type="hidden" id="ip-tre-slots" value="0">
+						    	<button type="button" class="btn btn-outline-dark treina" id="btn-treina-slots" t="ip-tre-slots">+1 Treinamento</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</form>
-		</div>
-		<script>
-		  	function calculaAtributos(lv, misticoFlag) {
-			    let pontos = 0;
-
-			    for (i = 0; i <= lv; i++) {
-			        pontos = pontos + i;
-			    }
-
-			    return pontos;
-			}
-
-			$('#str,#agi,#dex,#ene,#slots').change(function() {
-				let level = parseInt($('#str').val()) + parseInt($('#agi').val()) + parseInt($('#dex').val()) + parseInt($('#ene').val());
-
-				let pontosUsados = calculaAtributos(level) + calculaAtributos(parseInt($('#slots').val()));
-				console.log('Pontos usados: ' + pontosUsados)
-
-				$('#exp-final').val(parseInt($('#exp-inicial').val()) - pontosUsados);
-				if($('#exp-final').val() < 0) alert('Pontos insuficientes!');
-			})
-	  	</script>
 	</body>
 </html>
