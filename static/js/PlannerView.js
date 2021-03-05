@@ -23,26 +23,31 @@ export default class PlannerView {
 	}
 
 	updateTooltips() {
-		$('#ip-b-str').attr('title', `Arquétipo: ${$('#ip-arq-str').val()}, Tier: ${$('#ip-tier-str').val()}, Treinamento: ${$('#ip-tre-str').val()}`);
-		$('#ip-b-agi').attr('title', `Arquétipo: ${$('#ip-arq-agi').val()}, Tier: ${$('#ip-tier-agi').val()}, Treinamento: ${$('#ip-tre-agi').val()}`);
-		$('#ip-b-dex').attr('title', `Arquétipo: ${$('#ip-arq-dex').val()}, Tier: ${$('#ip-tier-dex').val()}, Treinamento: ${$('#ip-tre-dex').val()}`);
-		$('#ip-b-ene').attr('title', `Arquétipo: ${$('#ip-arq-ene').val()}, Tier: ${$('#ip-tier-ene').val()}, Treinamento: ${$('#ip-tre-ene').val()}`);
+		let attrs = this.getAttr(true);
+
+		$('#ip-b-str').attr('title', `Arquétipo: ${$('#ip-arq-str').val()}, Tier: ${$('#ip-tier-str').val()}, Treinamento: ${$('#ip-tre-str').val()}, Total: ${attrs.str}`);
+		$('#ip-b-agi').attr('title', `Arquétipo: ${$('#ip-arq-agi').val()}, Tier: ${$('#ip-tier-agi').val()}, Treinamento: ${$('#ip-tre-agi').val()}, Total: ${attrs.agi}`);
+		$('#ip-b-dex').attr('title', `Arquétipo: ${$('#ip-arq-dex').val()}, Tier: ${$('#ip-tier-dex').val()}, Treinamento: ${$('#ip-tre-dex').val()}, Total: ${attrs.dex}`);
+		$('#ip-b-ene').attr('title', `Arquétipo: ${$('#ip-arq-ene').val()}, Tier: ${$('#ip-tier-ene').val()}, Treinamento: ${$('#ip-tre-ene').val()}, Total: ${attrs.ene}`);
 		$('#ip-b-slots').attr('title', `Treinamento: ${$('#ip-tre-slots').val()}`);
 	}
 
 	atualizaAtributos() {
-		let attrs = this.getAttr();
-		let level = attrs.str + attrs.agi + attrs.dex + attrs.ene;
-		let choice = $('#ip-choice').val();
-		let mod = [undefined, undefined];
-		if(choice && choice == 'attr') mod = ['+', '-'];
-		if(choice && choice == 'slot') mod = ['-', '+'];
+		if(!this.getTier7Restriction()) {
+			let attrs = this.getAttr();
+			let level = attrs.str + attrs.agi + attrs.dex + attrs.ene;
+			let choice = $('#ip-choice').val();
+			let mod = [undefined, undefined];
+			if(choice && choice == 'attr') mod = ['+', '-'];
+			if(choice && choice == 'slot') mod = ['-', '+'];
 
-		let pontosUsados = this.calculaAtributos(level, mod[0]) + this.calculaAtributos(parseInt($('#ip-slots').val()), mod[1]);
+			let pontosUsados = this.calculaAtributos(level, mod[0]) + this.calculaAtributos(parseInt($('#ip-slots').val()), mod[1]);
 
-		$('#ip-exp-usada').val(pontosUsados)
-		$('#ip-exp-final').val(parseInt($('#ip-exp-inicial').val()) - pontosUsados);
-		if($('#ip-exp-final').val() < 0) swal.fire('Pontos insuficientes!');
+			$('#ip-exp-usada').val(pontosUsados)
+			$('#ip-exp-final').val(parseInt($('#ip-exp-inicial').val()) - pontosUsados);
+			$('#ip-level').val(level);
+			if($('#ip-exp-final').val() < 0) swal.fire('Pontos insuficientes!');
+		}
 	}
 
 	atualizaBonus() {
@@ -78,25 +83,21 @@ export default class PlannerView {
 	calculaBonusTier() {
 		let highest = this.getMaxAttr(true);
 		let bonus = 0;
+		let prevTier = Math.floor(highest / 10);
+		let tier = Math.floor(highest / 10) + 1
+		let tierBonus = [0, 0, 2, 5, 9, 14, 20, 27, 35, 44, 54]
 
-		if(highest >= 10) bonus += 2 // tier 2
-		if(highest >= 20) bonus += 3 // tier 3
-		if(highest >= 30) bonus += 4 // tier 4
-		if(highest >= 40) bonus += 5 // tier 5
-		if(highest >= 50) bonus += 6 // tier 6
-		if(highest >= 60) bonus += 7 // tier 7
-		if(highest >= 70) bonus += 8 // tier 8
-		if(highest >= 80) bonus += 9 // tier 9
-		if(highest >= 90) bonus += 10 // tier 10
+		bonus = this.addSinal(tierBonus[tier]);
 
 		$('input[id^="ip-tier"]').val(bonus);
+		$('#ip-tier').val(tier);
 		this.atualizaBonus();
 	}
 
 	addTreinamento(botao) {
 		let idTreina = '#' + $(botao).attr('t');
 		let oldVal = parseInt($(idTreina).val())
-		$(idTreina).val( ++oldVal );
+		$(idTreina).val( this.addSinal(++oldVal) );
 		this.atualizaBonus();
 	}
 
@@ -105,6 +106,8 @@ export default class PlannerView {
 	}
 
 	getAttr(total) {
+		let bonus = this.getBonus();
+
 		let atributos = {
 			'str': parseInt($('#ip-str').val()) || 0,
 			'agi': parseInt($('#ip-agi').val()) || 0,
@@ -113,10 +116,10 @@ export default class PlannerView {
 		}
 
 		if(total) {
-			atributos.str += parseInt($('#ip-arq-str').val()) + parseInt($('#ip-tier-str').val()) + parseInt($('#ip-tre-str').val());
-			atributos.agi += parseInt($('#ip-arq-agi').val()) + parseInt($('#ip-tier-agi').val()) + parseInt($('#ip-tre-agi').val());
-			atributos.dex += parseInt($('#ip-arq-dex').val()) + parseInt($('#ip-tier-dex').val()) + parseInt($('#ip-tre-dex').val());
-			atributos.ene += parseInt($('#ip-arq-ene').val()) + parseInt($('#ip-tier-ene').val()) + parseInt($('#ip-tre-ene').val());
+			atributos.str += bonus.str;
+			atributos.agi += bonus.agi;
+			atributos.dex += bonus.dex;
+			atributos.ene += bonus.ene;
 		}
 
 		return atributos;
@@ -125,6 +128,33 @@ export default class PlannerView {
 	getMaxAttr(total) {
 		let attrs = this.getAttr(total);
 		return Math.max(attrs.str, attrs.agi, attrs.dex, attrs.ene);
+	}
+
+	getBonus() {
+		return {
+			'str': parseInt($('#ip-arq-str').val()) + parseInt($('#ip-tier-str').val()) + parseInt($('#ip-tre-str').val()),
+			'agi': parseInt($('#ip-arq-agi').val()) + parseInt($('#ip-tier-agi').val()) + parseInt($('#ip-tre-agi').val()),
+			'dex': parseInt($('#ip-arq-dex').val()) + parseInt($('#ip-tier-dex').val()) + parseInt($('#ip-tre-dex').val()),
+			'ene': parseInt($('#ip-arq-ene').val()) + parseInt($('#ip-tier-ene').val()) + parseInt($('#ip-tre-ene').val())
+		}
+	}
+
+	getTier7Restriction() {
+		let max = this.getMaxAttr(true);
+		let base = this.getAttr(true);
+		let bonus = this.getBonus();
+
+		// restringe de forma que um atributo só possa passar de 59 quando todos os outros atributos estiverem em 59
+		if(max > 59 && (base.str < 59 || base.agi < 59 || base.dex < 59 || base.ene < 59)) {
+			if(base.str > 59) { $('#ip-str').val(59 - bonus.str); }
+			if(base.agi > 59) { $('#ip-agi').val(59 - bonus.agi); }
+			if(base.dex > 59) { $('#ip-dex').val(59 - bonus.dex); }
+			if(base.ene > 59) { $('#ip-ene').val(59 - bonus.ene); }
+			swal.fire('', 'Não é possível subir um atributo acima de 59 até que todos os outros estejam em 59!', 'error');
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	arquetiposOnClick() {

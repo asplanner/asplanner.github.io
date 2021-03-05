@@ -1,23 +1,12 @@
 import PlannerView from "./PlannerView.js";
 
 export default class Arquetipos {
+	view = new PlannerView();
+
 	run(arq) {
 		this.cleanArqBonus();
-		
-		if(arq == "Treoir") this.treoir();
-		if(arq == "Laidir") this.laidir();
-		if(arq == "Animalesco") this.animalesco();
-		if(arq == "Bestial") this.bestial();
-		if(arq == "Mistico") this.mistico();
-		if(arq == "Undead") this.undead();
-		if(arq == "Reborn") this.reborn();
-		if(arq == "Elemental") this.elemental();
-		if(arq == "Espiritual") this.espiritual();
-		if(arq == "Cyberpunk") this.cyberpunk();
-		if(arq == "Dragao") this.dragao();
-		if(arq == "Divindade") this.divindade();
-		if(arq == "Basico") this.basico();
-		
+		this[arq.toLowerCase()]();
+
 		this.atualizaBonus();
 	}
 
@@ -27,8 +16,7 @@ export default class Arquetipos {
 	}
 
 	atualizaBonus() {
-		let v = new PlannerView();
-		v.atualizaBonus();
+		this.view.atualizaBonus();
 	}
 
 	treoir() {
@@ -37,7 +25,7 @@ export default class Arquetipos {
 		$('#txt-requerimento').text('Ser um humano pertencente ao clã Treoir, sob as ordens da Rainha Branca e residente da Cidade de Leradr; ter Natureza Luz.');
 
 		let oldVal = parseInt($('#ip-arq-str').val());
-		$('#ip-arq-str').val( oldVal - 5);
+		$('#ip-arq-str').val( this.view.addSinal(oldVal - 5));
 	}
 
 	laidir() {
@@ -46,7 +34,7 @@ export default class Arquetipos {
 		$('#txt-requerimento').text('Ser um humano pertencente ao clã Laidir, sob as ordens da Rainha Vermelha e residente da Cidade dos Homens; ter Natureza Sombra.');
 
 		let oldVal = parseInt($('#ip-arq-ene').val());
-		$('#ip-arq-ene').val( oldVal - 5);
+		$('#ip-arq-ene').val( this.view.addSinal(oldVal - 5));
 	}
 
 	animalesco() {
@@ -77,13 +65,13 @@ export default class Arquetipos {
 			showCloseButton: true
 		});
 
-		$(document).on('click', '#ch-str-up', () => { $('#ip-arq-str').val(2); this.atualizaBonus(); });
-		$(document).on('click', '#ch-agi-up', () => { $('#ip-arq-agi').val(2); this.atualizaBonus(); });
-		$(document).on('click', '#ch-dex-up', () => { $('#ip-arq-dex').val(2); this.atualizaBonus(); });
+		$(document).on('click', '#ch-str-up', () => { $('#ip-arq-str').val(this.view.addSinal(2)); this.atualizaBonus(); });
+		$(document).on('click', '#ch-agi-up', () => { $('#ip-arq-agi').val(this.view.addSinal(2)); this.atualizaBonus(); });
+		$(document).on('click', '#ch-dex-up', () => { $('#ip-arq-dex').val(this.view.addSinal(2)); this.atualizaBonus(); });
 
-		$(document).on('click', '#ch-str-down', () => { $('#ip-arq-str').val(-3); this.atualizaBonus(); });
-		$(document).on('click', '#ch-agi-down', () => { $('#ip-arq-agi').val(-3); this.atualizaBonus(); });
-		$(document).on('click', '#ch-dex-down', () => { $('#ip-arq-dex').val(-3); this.atualizaBonus(); });
+		$(document).on('click', '#ch-str-down', () => { $('#ip-arq-str').val(this.view.addSinal(-3)); this.atualizaBonus(); });
+		$(document).on('click', '#ch-agi-down', () => { $('#ip-arq-agi').val(this.view.addSinal(-3)); this.atualizaBonus(); });
+		$(document).on('click', '#ch-dex-down', () => { $('#ip-arq-dex').val(this.view.addSinal(-3)); this.atualizaBonus(); });
 
 		$('#txt-vantagem').text('poder se transformar num animal completo se for sangue puro ou numa forma híbrida se for mestiço e também fazer tudo o que o animal escolhido faz enquanto na forma animal; aves voarão, sapos saltarão, predadores terão garras, presas e sentidos aguçados.\n- Observação: O jogador deve escolher qual animal seu personagem será e ele só poderá se transformar, através desta habilidade, no animal escolhido.');
 		$('#txt-desvantagem').text('-3 em um Atributo Físico à escolha do jogador, com exceção de Energia.');
@@ -96,32 +84,32 @@ export default class Arquetipos {
 			icon: 'info',
 			html: `Por favor, escolha um atributo para receber +3 de bonus(os outros dois recebem -2):
 			<br>
-			<button type="button" id="ch-str-up" class="swal2-confirm swal2-styled" style="display: inline-block;" onclick="swal.closeModal(); return false;">Força</button>
-			<button type="button" id="ch-agi-up" class="swal2-confirm swal2-styled" style="display: inline-block;" onclick="swal.closeModal(); return false;">Agilidade</button>
-			<button type="button" id="ch-dex-up" class="swal2-confirm swal2-styled" style="display: inline-block;" onclick="swal.closeModal(); return false;">Destreza</button>`,
+			<button type="button" id="ch-str-up-bestial" class="swal2-confirm swal2-styled" style="display: inline-block;" onclick="swal.closeModal(); return false;">Força</button>
+			<button type="button" id="ch-agi-up-bestial" class="swal2-confirm swal2-styled" style="display: inline-block;" onclick="swal.closeModal(); return false;">Agilidade</button>
+			<button type="button" id="ch-dex-up-bestial" class="swal2-confirm swal2-styled" style="display: inline-block;" onclick="swal.closeModal(); return false;">Destreza</button>`,
 			showCancelButton: false,
 			showConfirmButton: false,
 			showCloseButton: true
 		});
 
-		$(document).on('click', '#ch-str-up', () => { 
-			$('#ip-arq-str').val(3);
-			$('#ip-arq-dex').val(-2);
-			$('#ip-arq-agi').val(-2);
+		$(document).on('click', '#ch-str-up-bestial', () => { 
+			$('#ip-arq-str').val(this.view.addSinal(3));
+			$('#ip-arq-dex').val(this.view.addSinal(-2));
+			$('#ip-arq-agi').val(this.view.addSinal(-2));
 			this.atualizaBonus();
 		});
 
-		$(document).on('click', '#ch-agi-up', () => { 
-			$('#ip-arq-agi').val(3);
-			$('#ip-arq-dex').val(-2);
-			$('#ip-arq-str').val(-2);
+		$(document).on('click', '#ch-agi-up-bestial', () => { 
+			$('#ip-arq-agi').val(this.view.addSinal(3));
+			$('#ip-arq-dex').val(this.view.addSinal(-2));
+			$('#ip-arq-str').val(this.view.addSinal(-2));
 			this.atualizaBonus();
 		});
 
-		$(document).on('click', '#ch-dex-up', () => { 
-			$('#ip-arq-dex').val(3);
-			$('#ip-arq-str').val(-2);
-			$('#ip-arq-agi').val(-2);
+		$(document).on('click', '#ch-dex-up-bestial', () => { 
+			$('#ip-arq-dex').val(this.view.addSinal(3));
+			$('#ip-arq-str').val(this.view.addSinal(-2));
+			$('#ip-arq-agi').val(this.view.addSinal(-2));
 			this.atualizaBonus();
 		});
 
@@ -211,10 +199,13 @@ export default class Arquetipos {
 			showCloseButton: true
 		});
 
+		let self = this;
+
 		$(document).on('click', '.ch-tecnologico', function() {
 			let qtd = parseInt($(this).attr('qtd'));
 
-			$('#ip-arq-ene').val(-3 * qtd);
+			$('#ip-arq-ene').val(this.view.addSinal(-3 * qtd));
+			self.atualizaBonus();
 		})
 
 		$('#txt-vantagem').text('Até três itens iniciais à escolha do jogador que podem ser de uma tecnologia mais avançada que a steampunk (século XIX).');
@@ -233,9 +224,10 @@ export default class Arquetipos {
 		$('#txt-desvantagem').text('não fala a língua comum humana, sua tentativa de fala é entendida como um rugido feroz pelos humanos; hostilidade pelas sociedades humanas.');
 		$('#txt-requerimento').text('ser um dragão; ficha inicial deve conter um mínimo de 150 pontos totais.', 'error');
 
-		$('#ip-arq-str').val(parseInt($('#ip-arq-str').val()) + 10);
-		$('#ip-arq-agi').val(parseInt($('#ip-arq-agi').val()) + 10);
-		$('#ip-arq-dex').val(parseInt($('#ip-arq-dex').val()) + 10);
+		$('#ip-arq-str').val(parseInt(this.view.addSinal($('#ip-arq-str').val()) + 10));
+		$('#ip-arq-agi').val(parseInt(this.view.addSinal($('#ip-arq-agi').val()) + 10));
+		$('#ip-arq-dex').val(parseInt(this.view.addSinal($('#ip-arq-dex').val()) + 10));
+		$('#ip-arq-ene').val(parseInt(this.view.addSinal($('#ip-arq-ene').val()) + 10));
 	}
 
 	divindade() {
@@ -249,9 +241,10 @@ export default class Arquetipos {
 		$('#txt-desvantagem').text('nenhuma');
 		$('#txt-requerimento').text('ser uma deidade; ficha inicial deve conter um mínimo de 500 pontos totais.');
 
-		$('#ip-arq-str').val(parseInt($('#ip-arq-str').val()) + 10);
-		$('#ip-arq-agi').val(parseInt($('#ip-arq-agi').val()) + 10);
-		$('#ip-arq-dex').val(parseInt($('#ip-arq-dex').val()) + 10);
+		$('#ip-arq-str').val(parseInt(this.view.addSinal($('#ip-arq-str').val()) + 10));
+		$('#ip-arq-agi').val(parseInt(this.view.addSinal($('#ip-arq-agi').val()) + 10));
+		$('#ip-arq-dex').val(parseInt(this.view.addSinal($('#ip-arq-dex').val()) + 10));
+		$('#ip-arq-ene').val(parseInt(this.view.addSinal($('#ip-arq-ene').val()) + 10));
 	}
 
 	basico() {
