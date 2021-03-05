@@ -51,13 +51,15 @@ export default class PlannerView {
 	}
 
 	atualizaBonus() {
-		$('#ip-b-str').val(this.addSinal(parseInt($("#ip-arq-str").val()) + parseInt($("#ip-tier-str").val()) + parseInt($("#ip-tre-str").val())));
-		$('#ip-b-agi').val(this.addSinal(parseInt($("#ip-arq-agi").val()) + parseInt($("#ip-tier-agi").val()) + parseInt($("#ip-tre-agi").val())));
-		$('#ip-b-dex').val(this.addSinal(parseInt($("#ip-arq-dex").val()) + parseInt($("#ip-tier-dex").val()) + parseInt($("#ip-tre-dex").val())));
-		$('#ip-b-ene').val(this.addSinal(parseInt($("#ip-arq-ene").val()) + parseInt($("#ip-tier-ene").val()) + parseInt($("#ip-tre-ene").val())));
-		$('#ip-b-slots').val(this.addSinal(parseInt($("#ip-tre-slots").val())));
+		if(!this.getTier7Restriction()){
+			$('#ip-b-str').val(this.addSinal(parseInt($("#ip-arq-str").val()) + parseInt($("#ip-tier-str").val()) + parseInt($("#ip-tre-str").val())));
+			$('#ip-b-agi').val(this.addSinal(parseInt($("#ip-arq-agi").val()) + parseInt($("#ip-tier-agi").val()) + parseInt($("#ip-tre-agi").val())));
+			$('#ip-b-dex').val(this.addSinal(parseInt($("#ip-arq-dex").val()) + parseInt($("#ip-tier-dex").val()) + parseInt($("#ip-tre-dex").val())));
+			$('#ip-b-ene').val(this.addSinal(parseInt($("#ip-arq-ene").val()) + parseInt($("#ip-tier-ene").val()) + parseInt($("#ip-tre-ene").val())));
+			$('#ip-b-slots').val(this.addSinal(parseInt($("#ip-tre-slots").val())));
 
-		this.updateTooltips();
+			this.updateTooltips();
+		}
 	}
 
 	calculaAtributos(lv, mist) {
@@ -83,7 +85,20 @@ export default class PlannerView {
 	calculaBonusTier() {
 		let highest = this.getMaxAttr(true);
 		let bonus = 0;
-		let prevTier = Math.floor(highest / 10);
+		let tier = Math.floor(highest / 10) + 1
+		let tierBonus = [0, 0, 2, 5, 9, 14, 20, 27, 35, 44, 54]
+
+		bonus = this.addSinal(tierBonus[tier]);
+
+		$('input[id^="ip-tier"]').val(bonus);
+		$('#ip-tier').val(tier);
+		this.recalculaBonusTier();
+	}
+
+	recalculaBonusTier() {
+		// recalculando após aplicar os bonus de tier, necessário infelizmente.
+		let highest = this.getMaxAttr(true);
+		let bonus = 0;
 		let tier = Math.floor(highest / 10) + 1
 		let tierBonus = [0, 0, 2, 5, 9, 14, 20, 27, 35, 44, 54]
 
