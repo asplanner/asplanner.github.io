@@ -172,7 +172,7 @@ export default class Arquetipos {
 
 		$(document).on('click', '.elemental-btn', function() {
 			let elemento = $(this).attr('elemento');
-			$('#txt-vantagem').text($('#txt-vantagem').text() + '\n\nElemento selecionado: ' + elemento);
+			$('#txt-vantagem').text($('#txt-vantagem').text().replace('[Elemento]', elemento));
 		});
 
 		$('#txt-vantagem').text('Imunidade ao próprio elemento; Especialização Elemental - [Elemento].');
