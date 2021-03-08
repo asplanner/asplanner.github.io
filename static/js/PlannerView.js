@@ -41,6 +41,7 @@ export default class PlannerView {
 	}
 
 	atualizaAtributos() {
+		this.set99Limit();
 		if(!this.getTier7Restriction()) {
 			let attrs = this.getAttr();
 			let level = attrs.str + attrs.agi + attrs.dex + attrs.ene;
@@ -117,6 +118,7 @@ export default class PlannerView {
 		$(idTreina).val( this.addSinal(++oldVal) );
 		this.clearBonusTier();
 		this.calculaBonusTier();
+		this.set99Limit();
 	}
 
 	removeTreinamento(botao) {
@@ -125,6 +127,7 @@ export default class PlannerView {
 		$(idTreina).val( this.addSinal(--oldVal) );
 		this.clearBonusTier();
 		this.calculaBonusTier();
+		this.set99Limit();
 	}
 
 	addSinal(number) {
@@ -180,6 +183,22 @@ export default class PlannerView {
 			return true;
 		} else {
 			return false;
+		}
+	}
+
+	set99Limit() {
+		let max = this.getMaxAttr(true);
+		let attr = this.getAttr(true);
+		let bonus = this.getBonus();
+
+		// restringe de forma que um atributo não passe do 99
+		if(max > 99) {
+			if(attr.str > 99) { $('#ip-str').val(99 - bonus.str); }
+			if(attr.agi > 99) { $('#ip-agi').val(99 - bonus.agi); }
+			if(attr.dex > 99) { $('#ip-dex').val(99 - bonus.dex); }
+			if(attr.ene > 99) { $('#ip-ene').val(99 - bonus.ene); }
+			swal.fire('', 'Não é possível subir um atributo acima de 99!', 'error');
+			this.atualizaAtributos();
 		}
 	}
 

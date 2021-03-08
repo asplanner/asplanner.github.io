@@ -8,6 +8,7 @@ export default class Arquetipos {
 		this[arq.toLowerCase()]();
 
 		this.atualizaBonus();
+		this.view.set99Limit();
 	}
 
 	cleanArqBonus() {
