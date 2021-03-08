@@ -16,7 +16,8 @@ export default class Arquetipos {
 	}
 
 	atualizaBonus() {
-		this.view.atualizaBonus();
+		this.view.clearBonusTier();
+		this.view.calculaBonusTier();		
 	}
 
 	treoir() {
@@ -205,7 +206,7 @@ export default class Arquetipos {
 			let qtd = parseInt($(this).attr('qtd'));
 
 			$('#ip-arq-ene').val(this.view.addSinal(-3 * qtd));
-			self.atualizaBonus();
+			this.atualizaBonus();
 		})
 
 		$('#txt-vantagem').text('Até três itens iniciais à escolha do jogador que podem ser de uma tecnologia mais avançada que a steampunk (século XIX).');
