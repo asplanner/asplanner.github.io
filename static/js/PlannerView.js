@@ -94,7 +94,7 @@ export default class PlannerView {
 	calculaBonusTier() {
 		let highest = this.getMaxAttr(true);
 		let tier = Math.floor(highest / 10) + 1
-		let tierBonus = [0, 0, 2, 5, 9, 14, 20, 27, 35, 44, 54]
+		let tierBonus = [0, 0, 2, 5, 9, 14, 20, 27, 35, 44, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54]
 
 		let bonus = this.addSinal(tierBonus[tier]);
 
@@ -180,5 +180,21 @@ export default class PlannerView {
 		} else {
 			return false;
 		}
+	}
+
+	// para usar depois
+	saveFile(filename, data) {
+	    var blob = new Blob([data], {type: 'text/plain'});
+	    if(window.navigator.msSaveOrOpenBlob) {
+	        window.navigator.msSaveBlob(blob, filename);
+	    }
+	    else{
+	        var elem = window.document.createElement('a');
+	        elem.href = window.URL.createObjectURL(blob);
+	        elem.download = filename;        
+	        document.body.appendChild(elem);
+	        elem.click();        
+	        document.body.removeChild(elem);
+	    }
 	}
 }
