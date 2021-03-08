@@ -77,6 +77,7 @@ export default class PlannerView {
 	        if(!mist) pontos += levelAtual;
 	    }
 
+	    this.clearBonusTier(); // necessário para casos de redução de atributos
 	    this.calculaBonusTier();
 	    
 	    return pontos;
@@ -84,29 +85,21 @@ export default class PlannerView {
 
 	calculaBonusTier() {
 		let highest = this.getMaxAttr(true);
-		let bonus = 0;
 		let tier = Math.floor(highest / 10) + 1
 		let tierBonus = [0, 0, 2, 5, 9, 14, 20, 27, 35, 44, 54]
 
-		bonus = this.addSinal(tierBonus[tier]);
+		let bonus = this.addSinal(tierBonus[tier]);
 
-		$('input[id^="ip-tier"]').val(bonus);
-		$('#ip-tier').val(tier);
-		this.recalculaBonusTier();
-	}
-
-	recalculaBonusTier() {
-		// recalculando após aplicar os bonus de tier, necessário infelizmente.
-		let highest = this.getMaxAttr(true);
-		let bonus = 0;
-		let tier = Math.floor(highest / 10) + 1
-		let tierBonus = [0, 0, 2, 5, 9, 14, 20, 27, 35, 44, 54]
-
-		bonus = this.addSinal(tierBonus[tier]);
-
-		$('input[id^="ip-tier"]').val(bonus);
+		if($('#ip-tier-dex').val() != bonus) {
+			$('input[id^="ip-tier"]').val(bonus);
+			this.calculaBonusTier(); // recalculando com os novos bonus
+		}
 		$('#ip-tier').val(tier);
 		this.atualizaBonus();
+	}
+
+	clearBonusTier() {
+		$('#ip-tier-str,#ip-tier-agi,#ip-tier-dex,#ip-tier-ene').val('0');
 	}
 
 	addTreinamento(botao) {
@@ -156,15 +149,15 @@ export default class PlannerView {
 
 	getTier7Restriction() {
 		let max = this.getMaxAttr(true);
-		let base = this.getAttr(true);
+		let attr = this.getAttr(true);
 		let bonus = this.getBonus();
 
 		// restringe de forma que um atributo só possa passar de 59 quando todos os outros atributos estiverem em 59
-		if(max > 59 && (base.str < 59 || base.agi < 59 || base.dex < 59 || base.ene < 59)) {
-			if(base.str > 59) { $('#ip-str').val(59 - bonus.str); }
-			if(base.agi > 59) { $('#ip-agi').val(59 - bonus.agi); }
-			if(base.dex > 59) { $('#ip-dex').val(59 - bonus.dex); }
-			if(base.ene > 59) { $('#ip-ene').val(59 - bonus.ene); }
+		if(max > 59 && (attr.str < 59 || attr.agi < 59 || attr.dex < 59 || attr.ene < 59)) {
+			if(attr.str > 59) { $('#ip-str').val(59 - bonus.str); }
+			if(attr.agi > 59) { $('#ip-agi').val(59 - bonus.agi); }
+			if(attr.dex > 59) { $('#ip-dex').val(59 - bonus.dex); }
+			if(attr.ene > 59) { $('#ip-ene').val(59 - bonus.ene); }
 			swal.fire('', 'Não é possível subir um atributo acima de 59 até que todos os outros estejam em 59!', 'error');
 			return true;
 		} else {
