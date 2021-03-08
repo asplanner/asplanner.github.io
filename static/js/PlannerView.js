@@ -12,6 +12,7 @@ export default class PlannerView {
 
 		$('.baseAttr,#ip-exp-inicial').change(() => this.atualizaAtributos());
 		$('.treina').click(function() { self.addTreinamento(this) });
+		$('.treina-down').click(function() { self.removeTreinamento(this) });
 		$('#sl-arquetipo').change(this.arquetiposOnClick);
 	}
 
@@ -22,7 +23,14 @@ export default class PlannerView {
 		})
 	}
 
-	updateTooltips() {
+	arquetiposOnClick() {
+		let arquetipo = $(this).val();
+		let arquetipos = new Arquetipos();
+
+		arquetipos.run(arquetipo);
+	}
+
+	atualizaTooltips() {
 		let attrs = this.getAttr(true);
 
 		$('#ip-b-str').attr('title', `Arquétipo: ${$('#ip-arq-str').val()}, Tier: ${$('#ip-tier-str').val()}, Treinamento: ${$('#ip-tre-str').val()}, Total: ${attrs.str}`);
@@ -51,15 +59,15 @@ export default class PlannerView {
 	}
 
 	atualizaBonus() {
-		if(!this.getTier7Restriction()){
-			$('#ip-b-str').val(this.addSinal(parseInt($("#ip-arq-str").val()) + parseInt($("#ip-tier-str").val()) + parseInt($("#ip-tre-str").val())));
-			$('#ip-b-agi').val(this.addSinal(parseInt($("#ip-arq-agi").val()) + parseInt($("#ip-tier-agi").val()) + parseInt($("#ip-tre-agi").val())));
-			$('#ip-b-dex').val(this.addSinal(parseInt($("#ip-arq-dex").val()) + parseInt($("#ip-tier-dex").val()) + parseInt($("#ip-tre-dex").val())));
-			$('#ip-b-ene').val(this.addSinal(parseInt($("#ip-arq-ene").val()) + parseInt($("#ip-tier-ene").val()) + parseInt($("#ip-tre-ene").val())));
-			$('#ip-b-slots').val(this.addSinal(parseInt($("#ip-tre-slots").val())));
+		$('#ip-b-str').val(this.addSinal(parseInt($("#ip-arq-str").val()) + parseInt($("#ip-tier-str").val()) + parseInt($("#ip-tre-str").val())));
+		$('#ip-b-agi').val(this.addSinal(parseInt($("#ip-arq-agi").val()) + parseInt($("#ip-tier-agi").val()) + parseInt($("#ip-tre-agi").val())));
+		$('#ip-b-dex').val(this.addSinal(parseInt($("#ip-arq-dex").val()) + parseInt($("#ip-tier-dex").val()) + parseInt($("#ip-tre-dex").val())));
+		$('#ip-b-ene').val(this.addSinal(parseInt($("#ip-arq-ene").val()) + parseInt($("#ip-tier-ene").val()) + parseInt($("#ip-tre-ene").val())));
+		$('#ip-b-slots').val(this.addSinal(parseInt($("#ip-tre-slots").val())));
 
-			this.updateTooltips();
-		}
+		if(this.getTier7Restriction()) this.atualizaAtributos();
+
+		this.atualizaTooltips();
 	}
 
 	calculaAtributos(lv, mist) {
@@ -106,6 +114,13 @@ export default class PlannerView {
 		let idTreina = '#' + $(botao).attr('t');
 		let oldVal = parseInt($(idTreina).val())
 		$(idTreina).val( this.addSinal(++oldVal) );
+		this.atualizaBonus();
+	}
+
+	removeTreinamento(botao) {
+		let idTreina = '#' + $(botao).attr('t');
+		let oldVal = parseInt($(idTreina).val())
+		$(idTreina).val( this.addSinal(--oldVal) );
 		this.atualizaBonus();
 	}
 
@@ -163,12 +178,5 @@ export default class PlannerView {
 		} else {
 			return false;
 		}
-	}
-
-	arquetiposOnClick() {
-		let arquetipo = $(this).val();
-		let arquetipos = new Arquetipos();
-
-		arquetipos.run(arquetipo);
 	}
 }
