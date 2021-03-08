@@ -114,14 +114,16 @@ export default class PlannerView {
 		let idTreina = '#' + $(botao).attr('t');
 		let oldVal = parseInt($(idTreina).val())
 		$(idTreina).val( this.addSinal(++oldVal) );
-		this.atualizaBonus();
+		this.clearBonusTier();
+		this.calculaBonusTier();
 	}
 
 	removeTreinamento(botao) {
 		let idTreina = '#' + $(botao).attr('t');
 		let oldVal = parseInt($(idTreina).val())
 		$(idTreina).val( this.addSinal(--oldVal) );
-		this.atualizaBonus();
+		this.clearBonusTier();
+		this.calculaBonusTier();
 	}
 
 	addSinal(number) {
