@@ -94,7 +94,9 @@ export default class PlannerView {
 	calculaBonusTier() {
 		let highest = this.getMaxAttr(true);
 		let tier = Math.floor(highest / 10) + 1
-		let tierBonus = [0, 0, 2, 5, 9, 14, 20, 27, 35, 44, 54, 54, 54, 54, 54, 54, 54, 54, 54, 54]
+		tier = tier > 10 ? 10 : tier;
+		$('#ip-tier').val(tier);
+		let tierBonus = [0, 0, 2, 5, 9, 14, 20, 20, 20, 20, 20]
 
 		let bonus = this.addSinal(tierBonus[tier]);
 
@@ -102,7 +104,6 @@ export default class PlannerView {
 			$('input[id^="ip-tier"]').val(bonus);
 			this.calculaBonusTier(); // recalculando com os novos bonus
 		}
-		$('#ip-tier').val(tier);
 		this.atualizaBonus();
 	}
 
