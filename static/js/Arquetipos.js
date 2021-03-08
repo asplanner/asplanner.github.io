@@ -132,8 +132,8 @@ export default class Arquetipos {
 			showCloseButton: true
 		});
 
-		$(document).on('click', '#ch-attr', () => $('#ip-choice').val('attr'));
-		$(document).on('click', '#ch-slots', () => $('#ip-choice').val('slot'));
+		$(document).on('click', '#ch-attr', () => { $('#ip-choice').val('attr'); this.view.atualizaAtributos(); });
+		$(document).on('click', '#ch-slots', () => { $('#ip-choice').val('slot'); this.view.atualizaAtributos(); });
 		
 		$('#txt-vantagem').text('O jogador deve escolher se ele quer priorizar Level de Personagem ou Slot de Habilidade: os valores do que for comprado em prioridade custarão 50% do seu valor (valores quebrados serão arredondados para cima).');
 		$('#txt-desvantagem').text('Os valores do que for comprado sem prioridade terão 150% do seu valor (valores quebrados serão arredondados para baixo).');
@@ -156,7 +156,7 @@ export default class Arquetipos {
 		swal.fire({
 			title: 'Escolha',
 			icon: 'info',
-			html: `Por favor, escolha entre priorizar atributos ou slots de habilidade:
+			html: `Por favor, escolha seu elemento:
 			<br>
 			<button type="button" class="swal2-confirm swal2-styled elemental-btn" style="display: inline-block;" onclick="swal.closeModal(); return false;" elemento="Fogo">Fogo</button>
 			<button type="button" class="swal2-confirm swal2-styled elemental-btn" style="display: inline-block;" onclick="swal.closeModal(); return false;" elemento="Água">Água</button>
@@ -205,8 +205,8 @@ export default class Arquetipos {
 		$(document).on('click', '.ch-tecnologico', function() {
 			let qtd = parseInt($(this).attr('qtd'));
 
-			$('#ip-arq-ene').val(this.view.addSinal(-3 * qtd));
-			this.atualizaBonus();
+			$('#ip-arq-ene').val(self.view.addSinal(-3 * qtd));
+			self.atualizaBonus();
 		})
 
 		$('#txt-vantagem').text('Até três itens iniciais à escolha do jogador que podem ser de uma tecnologia mais avançada que a steampunk (século XIX).');
