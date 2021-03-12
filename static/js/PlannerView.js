@@ -55,7 +55,7 @@ export default class PlannerView {
 			$('#ip-exp-usada').val(pontosUsados)
 			$('#ip-exp-final').val(parseInt($('#ip-exp-inicial').val()) - pontosUsados);
 			$('#ip-level').val(level);
-			if($('#ip-exp-final').val() < 0) swal.fire('Pontos insuficientes!');
+			$('#ip-exp-final').val() < 0 ? $('#ip-exp-final').addClass('is-invalid') : $('#ip-exp-final').removeClass('is-invalid');
 		}
 	}
 

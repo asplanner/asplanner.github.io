@@ -226,10 +226,10 @@ export default class Arquetipos {
 		$('#txt-desvantagem').text('não fala a língua comum humana, sua tentativa de fala é entendida como um rugido feroz pelos humanos; hostilidade pelas sociedades humanas.');
 		$('#txt-requerimento').text('ser um dragão; ficha inicial deve conter um mínimo de 150 pontos totais.', 'error');
 
-		$('#ip-arq-str').val(parseInt(this.view.addSinal($('#ip-arq-str').val()) + 10));
-		$('#ip-arq-agi').val(parseInt(this.view.addSinal($('#ip-arq-agi').val()) + 10));
-		$('#ip-arq-dex').val(parseInt(this.view.addSinal($('#ip-arq-dex').val()) + 10));
-		$('#ip-arq-ene').val(parseInt(this.view.addSinal($('#ip-arq-ene').val()) + 10));
+		$('#ip-arq-str').val(parseInt(this.view.addSinal(10)));
+		$('#ip-arq-agi').val(parseInt(this.view.addSinal(10)));
+		$('#ip-arq-dex').val(parseInt(this.view.addSinal(10)));
+		$('#ip-arq-ene').val(parseInt(this.view.addSinal(10)));
 	}
 
 	divindade() {
@@ -243,10 +243,20 @@ export default class Arquetipos {
 		$('#txt-desvantagem').text('nenhuma');
 		$('#txt-requerimento').text('ser uma deidade; ficha inicial deve conter um mínimo de 500 pontos totais.');
 
-		$('#ip-arq-str').val(parseInt(this.view.addSinal($('#ip-arq-str').val()) + 10));
-		$('#ip-arq-agi').val(parseInt(this.view.addSinal($('#ip-arq-agi').val()) + 10));
-		$('#ip-arq-dex').val(parseInt(this.view.addSinal($('#ip-arq-dex').val()) + 10));
-		$('#ip-arq-ene').val(parseInt(this.view.addSinal($('#ip-arq-ene').val()) + 10));
+		$('#ip-arq-str').val(parseInt(this.view.addSinal(10)));
+		$('#ip-arq-agi').val(parseInt(this.view.addSinal(10)));
+		$('#ip-arq-dex').val(parseInt(this.view.addSinal(10)));
+		$('#ip-arq-ene').val(parseInt(this.view.addSinal(10)));
+	}
+
+	automato() {
+		$('#txt-vantagem').text(`1+ em força, agilidade e destreza;\nMáquina: o personagem não detém as mesmas necessidades básicas humanas pra sobreviver, como respirar ou descansar.\nCorpo metálico: O personagem possui +5 de resistência física.`);
+		$('#txt-desvantagem').text('Não pode possuir mais do que 0 de energia; precisa recarregar com gasolina ou outro combustível ao invés de descansar; -5 de resistência contra água, fogo e eletricidade.');
+		$('#txt-requerimento').text('Ser uma máquina por completo, ou possuir pelo menos 80% do corpo feito de partes mecânicas ou eletrônicas.');
+
+		$('#ip-arq-str').val(parseInt(this.view.addSinal(1)));
+		$('#ip-arq-agi').val(parseInt(this.view.addSinal(1)));
+		$('#ip-arq-dex').val(parseInt(this.view.addSinal(1)));
 	}
 
 	basico() {
@@ -254,6 +264,6 @@ export default class Arquetipos {
 		$('#txt-desvantagem').text('Nenhuma.');
 		$('#txt-requerimento').text('Nenhum.');
 
-		swal.fire('Atenção!', 'Por favor, ajuste seus pontos iniciais para 35 caso já não tenha feito', 'info')
+		swal.fire('Atenção', 'Por favor, certifique-se de adicionar manualmente os 5 pontos extras caso já não tenha feito.', 'info')
 	}
 }
